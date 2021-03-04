@@ -7,6 +7,7 @@
     <title>Chat Application</title>
     <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./libs/css/style.css">
+    <link rel="stylesheet" href="./libs/fonts/css/all.min.css">
 </head>
 <body>
     <div class="container main">

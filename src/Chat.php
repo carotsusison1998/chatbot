@@ -23,26 +23,34 @@ class Chat implements MessageComponentInterface {
             , $from->resourceId, $msg, $numRecv);
 
         $data = json_decode($msg, true);
-
-        $chat_room = new \room;
-        $chat_room->setRoom($data['id'], $data['msg']);
-        // $chat_room->save_room();
-        foreach ($this->clients as $client) {
-            // if ($from !== $client) {
-            //     // The sender is not the receiver, send to each client connected
-            //     $client->send($msg);
-            // }
-
-            if($from === $client)
-            {
-                $data['from'] = 'Me';
+        if($data['action'] == "chat-member"){
+            foreach ($this->clients as $client) {
+                if($from === $client)
+                {
+                    $data['from'] = 'Me';
+                }
+                else
+                {
+                    $data['from'] = "you";
+                }
+                $client->send(json_encode($data));
             }
-            else
-            {
-                $data['from'] = "you";
-            }
+        }else if($data['action'] == "chat-room"){
+            $chat_room = new \room;
+            $chat_room->setRoom($data['id'], $data['msg']);
+            // $chat_room->saveRoom();
+            foreach ($this->clients as $client) {
+                if($from === $client)
+                {
+                    $data['from'] = 'Me';
+                }
+                else
+                {
+                    $data['from'] = "you";
+                }
 
-            $client->send(json_encode($data));
+                $client->send(json_encode($data));
+            }
         }
     }
 

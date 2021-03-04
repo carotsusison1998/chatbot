@@ -90,9 +90,9 @@ class member{
     public function enable_user_account($verification_code_member, $status_member)
 	{
 		$query = "
-		UPDATE tbl_members 
-		SET status_member = :status_member 
-		WHERE verification_code_member = :verification_code_member
+			UPDATE tbl_members 
+			SET status_member = :status_member 
+			WHERE verification_code_member = :verification_code_member
 		";
 
 		$statement = $this->connect->prepare($query);
@@ -144,14 +144,60 @@ class member{
 		$statement->execute();
 		if($statement->rowCount() > 0)
 		{
-			return $statement->fetchAll();;
+			$check_member = $statement->fetchAll();
+			$status_member = "Login";
+			$query = "
+				UPDATE tbl_members 
+				SET login_status_member = :login_status_member 
+				WHERE id_member = :id_member
+			";
+			$stmp = $this->connect->prepare($query);
+			$stmp->bindParam(':login_status_member', $status_member);
+			$stmp->bindParam(':id_member', $check_member[0]['id_member']);
+			$stmp->execute();
+			return $check_member;
 		}
 		else
 		{
 			return false;
 		}
 	}
-}
+	public function getListMember(){
+        $query = "
+            SELECT * 
+            FROM tbl_members
+		";
+        $statement = $this->connect->prepare($query);
+        if($statement->execute())
+		{
+			return $statement->fetchAll();
+		}
+		else
+		{
+			return false;
+		}
+    }
+	function logoutMember($id){
+		$status_member = "Logout";
+        $query = "
+			UPDATE tbl_members 
+			SET login_status_member = :login_status_member 
+			WHERE id_member = :id_member
+		";
 
+		$statement = $this->connect->prepare($query);
+		$statement->bindParam(':login_status_member', $status_member);
+		$statement->bindParam(':id_member', $id);
+		if($statement->execute())
+		{
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+    }
+}
 
 ?>

@@ -1,10 +1,26 @@
 <?php require_once './inc/header.php'; ?>
 <?php
     session_start();
+    require_once 'query/member.php';
+    require_once 'query/room.php';
+    $chat_room = new \room;
+    $member = new \member;
+
     if(!$_SESSION['member']){
         header('location:login.php');
     }
-    require_once 'query/member.php';
+    if(isset($_POST['logout'])){
+        $logout = $member->logoutMember($_POST['login_user_id']);
+        if($logout){
+            unset($_SESSION['member']);
+            header('location:login.php');
+        }
+    }
+    $get_data = $chat_room->getData();
+    $get_list_member = $member->getListMember();
+    // echo "<pre>";
+    // print_r($get_list_member);
+    // echo "</pre>";
 ?>
 <div class="container">
     <h4 class="text-center pb-3">Chat Room</h4>
@@ -19,17 +35,33 @@
                                     <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
                                 </div>
                                 <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
-                                    
+                                    <?php 
+                                        if($get_data){ 
+                                        foreach($get_data as $item){
+                                            if($item['id_member'] == $_SESSION['member']['id_member']){
+                                    ?>
+                                            <div class="media media-chat media-chat-reverse">
+                                                <img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>
+                                                <div class='media-body'><p><?php echo $item['message']; ?></p></div>
+                                            </div>
+                                    <?php
+                                            }else{
+                                            ?>
+                                            <div class="media media-chat">
+                                                <img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>
+                                                <?php echo $item['name_member']?>
+                                                <div class='media-body'><p><?php echo $item['message']; ?></p></div>
+                                            </div>
+                                            <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
                                 </div>
                                 <div class="publisher bt-1 border-light">
                                     <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
                                     <input class="publisher-input" type="text" placeholder="Write something" id="txt-chat">
-                                    <button id="btn-send">Gửi</button>
-                                    <span class="publisher-btn file-group">
-                                    <i class="fa fa-paperclip file-browser"></i> 
-                                    <input type="file"> </span>
-                                    <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
-                                    <a class="publisher-btn text-info" href="#" data-abc="true"><i class="fa fa-paper-plane"></i></a> 
+                                    <a class="publisher-btn text-info" href="#" data-abc="true" id="btn-send"><i class="fa fa-paper-plane"></i></a> 
                                 </div>
                             </div>
                         </div>
@@ -39,13 +71,50 @@
             <div class="col-sm-4">
                 <?php if($_SESSION['member']){ ?>
                     <input type="hidden" name="login_user_id" id="login_user_id" value="<?php echo $_SESSION['member']['id_member']; ?>" />
+                    <input type="hidden" name="login_user_name" id="login_user_name" value="<?php echo $_SESSION['member']['name_member']; ?>" />
                     <div class="mt-3 mb-3 text-center">
                         <img src="./libs/images/1613618355.png" width="150" class="img-fluid rounded-circle img-thumbnail" />
                         <h3 class="mt-2"><?php echo $_SESSION['member']['name_member']; ?></h3>
                         <a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a>
-                        <input type="button" class="btn btn-primary mt-2 mb-2" name="logout" id="logout" value="Logout" />
+                        <form method="POST" action="chatroom.php">
+                            <input type="hidden" name="login_user_id" id="login_user_id" value="<?php echo $_SESSION['member']['id_member']; ?>" />
+                            <input type="submit" class="btn btn-primary mt-2 mb-2" name="logout" id="logout" value="Logout" />
+                        </form>
                     </div>
                 <?php } ?>
+                <div class="card mt-3">
+					<div class="card-header">User List</div>
+					<div class="card-body" id="user_list">
+						<div class="list-group list-group-flush">
+						<?php
+						if(count($get_list_member) > 0)
+						{
+							foreach($get_list_member as $key => $user)
+							{
+								$icon = '<i class="fa fa-circle text-danger"></i>';
+
+								if($user['login_status_member'] == 'Login')
+								{
+									$icon = '<i class="fa fa-circle text-success"></i>';
+								}
+
+								if($user['id_member'] != $_SESSION['member']['id_member'])
+								{
+									echo '
+									<a class="list-group-item list-group-item-action" href="./chatmember.php?member='.$user["id_member"].'">
+										<img src="./libs/images/1613618355.png" class="img-fluid rounded-circle img-thumbnail" width="50" />
+										<span class="ml-1"><strong>'.$user["name_member"].'</strong></span>
+										<span class="mt-2 float-right">'.$icon.'</span>
+									</a>
+									';
+								}
+
+							}
+						}
+						?>
+						</div>
+					</div>
+				</div>
             </div>
         </div>
     </div>
