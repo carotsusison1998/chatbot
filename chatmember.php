@@ -123,4 +123,56 @@
         </div>
     </div>
 </div>
+<script src="./libs/jquery/jquery.js"></script>
+<script>
+    var conn = new WebSocket('ws://localhost:8080');
+    conn.onopen = function(e) {
+        console.log("Connection established!");
+    };
+
+    conn.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        if(data.action == "chat-member"){
+            console.log("chat member", data);
+        }
+    };
+    $("#btn-send-member").click(function(){
+        if($("#txt-chat-member").val()){
+            var obj = {
+                id: $("#login_user_id").val(),
+                id_recieve: $("#recieve_user_id").val(),
+                name: $("#login_user_name").val(),
+                msg: $("#txt-chat-member").val(),
+                action: "chat-member"
+            }
+            conn.send(JSON.stringify(obj))
+        }
+    })
+
+    // $("#btn-send").click(function(){
+    //     if($("#txt-chat").val()){
+    //         var obj = {
+    //             id: $("#login_user_id").val(),
+    //             name: $("#login_user_name").val(),
+    //             msg: $("#txt-chat").val(),
+    //             action: "chat-room"
+    //         }
+    //         conn.send(JSON.stringify(obj))
+    //     }
+    // })
+    // $(document).keypress(function(event){
+    //     var keycode = (event.keyCode ? event.keyCode : event.which);
+    //     if (keycode == '13') {
+    //         var obj = {
+    //             id: $("#login_user_id").val(),
+    //             name: $("#login_user_name").val(),
+    //             msg: $("#txt-chat").val(),
+    //             action: "chat-room"
+    //         }
+    //         if($("#txt-chat").val()){
+    //             conn.send(JSON.stringify(obj))
+    //         }
+    //     }
+    // });
+</script>
 <?php require_once './inc/footer.php'; ?>
