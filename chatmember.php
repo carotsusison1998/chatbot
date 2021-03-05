@@ -30,13 +30,15 @@
     <h4 class="aligncenter pb-3">Phòng Chat Member</h4>
     <div class="chat">
         <div class="row">
-            <div class="content-chat" id="content-chat-room">
-                <div class="list">
+            <div class="content-chat" id="content-chat-member">
+                <div class="bg">
+                    <div class="list">
                     
-                </div>
-                <div class="text-send">
-                    <textarea name="" class="input-text" id="input-text-member"></textarea>
-                    <input type="submit" class="btn btn-submit" id="btn-send-member" value="Gửi">
+                    </div>
+                    <div class="text-send">
+                        <textarea name="" class="input-text" id="input-text-member"></textarea>
+                        <input type="submit" class="btn btn-submit" id="btn-send-member" value="Gửi">
+                    </div>
                 </div>
             </div>
             <div class="member-chat">
@@ -103,8 +105,8 @@
                     }else if(data.from == 'you'){
                         html += "<div class='list-msg left'><div class='item-msg'><div class='info'><div class='img'><img src='./libs/images/ic-men.png' alt=''></div><span class='text-name'>"+data.name+"</span></div><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
                     }
-                    $('#content-chat-room .list').append(html);
-                    $('#content-chat-room .list').scrollTop($('#content-chat-room .list')[0].scrollHeight);
+                    $('#content-chat-member .list').append(html);
+                    $('#content-chat-member .list').scrollTop($('#content-chat-member .list')[0].scrollHeight);
                 }
                 if(data.id_recieve == <?php echo $_GET['member']; ?>){
                     console.log('do 2');
@@ -113,8 +115,8 @@
                     }else if(data.from == 'you'){
                         html += "<div class='list-msg left'><div class='item-msg'><div class='info'><div class='img'><img src='./libs/images/ic-men.png' alt=''></div><span class='text-name'>"+data.name+"</span></div><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
                     }
-                    $('#content-chat-room .list').append(html);
-                    $('#content-chat-room .list').scrollTop($('#content-chat-room .list')[0].scrollHeight);
+                    $('#content-chat-member .list').append(html);
+                    $('#content-chat-member .list').scrollTop($('#content-chat-member .list')[0].scrollHeight);
                 }
 
             }

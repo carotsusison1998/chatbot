@@ -276,15 +276,18 @@ table
 }
 .chat .content-chat{
     width: 60%;
+    position: relative;
+}
+.chat .content-chat .bg{
+    /* padding: 10px 15px 50px; */
+}
+.chat .content-chat .bg .list{
     height: 500px;
     overflow-y: scroll;
     border: 1px solid #b8b5b5;
-    padding-top: 10px;
-    padding-bottom: 10px;
     padding-right: 0;
-    position: relative;
     background-color: #e2e1c4;
-    padding: 10px 15px;
+    padding: 10px 15px 50px;
 }
 .chat .list-msg{
     width: 100%;
@@ -332,6 +335,7 @@ table
     left: 0;
     right: 0;
     align-items: center;
+    padding-right: 18px;
 }
 .chat .text-send .btn-submit{
     width: 50px;
@@ -345,8 +349,6 @@ table
 .chat .text-send .input-text{
     flex: 1;
     outline: none;
-    border-bottom: none;
-    border-left: none;
     height: 48px;
     resize: none;
     padding: 6px 8px;
@@ -443,4 +445,24 @@ table
     z-index: 10;
     background-color: green;
     color: white;
+}
+@media (max-width: 768px){
+    .chat .row{
+        flex-direction: column-reverse;
+    }
+    .chat .content-chat,
+    .chat .member-chat{
+        width: 100%;
+    }
+    .chat .member-chat{
+        padding-left: 0;
+    }
+    .chat .content-chat{
+        margin-top: 20px;
+    }
+}
+@media (max-width: 480px){
+    html{
+        font-size: 13px;
+    }
 }

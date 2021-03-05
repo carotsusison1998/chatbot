@@ -27,44 +27,177 @@
     <div class="chat">
         <div class="row">
             <div class="content-chat" id="content-chat-room">
-                <div class="list">
-                    <?php 
-                        if($get_data){ 
-                        foreach($get_data as $item){
-                            if($item['id_member'] != $_SESSION['member']['id_member']){
-                    ?>
-                            <div class="list-msg left">
-                                <div class="item-msg">
-                                    <div class="info">
-                                        <div class="img">
-                                            <img src="./libs/images/ic-men.png" alt="">
+                <div class="bg">
+                    <div class="list">
+                        <?php 
+                            if($get_data){ 
+                            foreach($get_data as $item){
+                                if($item['id_member'] != $_SESSION['member']['id_member']){
+                        ?>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
                                         </div>
-                                        <span class="text-name"><?php echo $item['name_member']?></span>
-                                    </div>
-                                    <div class="text-msg">
-                                        <p><?php echo $item['message']; ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                    <?php
-                            }else{
-                            ?>
-                            <div class="list-msg right">
-                                <div class="item-msg">
-                                    <div class="text-msg">
-                                        <p><?php echo $item['message']; ?></p>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <?php
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $item['name_member']?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                        <?php
+                                }else{
+                                ?>
+                                <div class="list-msg right">
+                                    <div class="item-msg">
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                                }
                             }
                         }
-                    }
-                    ?>
-                </div>
-                <div class="text-send">
-                    <textarea name="" class="input-text" id="input-text-server"></textarea>
-                    <input type="submit" class="btn btn-submit" id="btn-submit-server" value="Gửi">
+                        ?>
+                    </div>
+                    <div class="text-send">
+                        <textarea name="" class="input-text" id="input-text-server"></textarea>
+                        <input type="submit" class="btn btn-submit" id="btn-submit-server" value="Gửi">
+                    </div>
                 </div>
             </div>
             <div class="member-chat">
@@ -101,6 +234,124 @@
                                                     </div>
                                                 </div>
                                             </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            
                         <?php 
                                     }
                                 }
@@ -118,11 +369,9 @@
     conn.onopen = function(e) {
         console.log("Connection established!");
     };
-
+    $('#content-chat-room .list').scrollTop($('#content-chat-room .list')[0].scrollHeight);
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        console.log('ấdasdasda');
-
         if($(".member-"+data.id).length > 0 && $("#login_user_id").val() == data.id_recieve){
             if($(".member-"+data.id+" .count-msg").length > 0){
                 var i = parseInt($(".member-"+data.id+" .count-msg").html()) + 1;
@@ -133,7 +382,7 @@
                 $(".member-"+data.id).css("color", "green");
             }
         }
-        console.log('data', data);
+        // console.log('data', data);
         if(data.action == "chat-room"){
             var html =  '';
             if(data.from == 'Me'){
@@ -142,7 +391,6 @@
                 html += "<div class='list-msg left'><div class='item-msg'><div class='info'><div class='img'><img src='./libs/images/ic-men.png' alt=''></div><span class='text-name'>"+data.name+"</span></div><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
             }
             $('#content-chat-room .list').append(html);
-            // 
             $('#content-chat-room .list').scrollTop($('#content-chat-room .list')[0].scrollHeight);
         }
     };
@@ -156,7 +404,9 @@
                 action: "chat-room"
             }
             conn.send(JSON.stringify(obj))
-            $("#input-text-server").val("");
+            setTimeout(() => {
+                $("#input-text-server").val("");
+            }, 10);
         }
     })
     $(document).keypress(function(event){
@@ -170,7 +420,9 @@
             }
             if($("#input-text-server").val()){
                 conn.send(JSON.stringify(obj))
-                $("#input-text-server").val("");
+                setTimeout(() => {
+                    $("#input-text-server").val("");
+                }, 10);
             }
         }
     });
