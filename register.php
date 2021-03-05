@@ -18,7 +18,7 @@ require 'vendor/autoload.php';
         $set_member = $member->setMember(
             $_POST['name_member'],
             $_POST['email_member'],
-            $_POST['password_member'],
+            $_POST['password_member']
         );
         if($set_member){
             $msg_error = "email đã tồn tại! vui lòng nhập email khác";

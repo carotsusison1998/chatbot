@@ -101,10 +101,11 @@
 								if($user['id_member'] != $_SESSION['member']['id_member'])
 								{
 									echo '
-									<a class="list-group-item list-group-item-action" href="./chatmember.php?member='.$user["id_member"].'">
+									<a class="list-group-item list-group-item-action user-'.$user["id_member"].'" href="./chatmember.php?member='.$user["id_member"].'">
 										<img src="./libs/images/1613618355.png" class="img-fluid rounded-circle img-thumbnail" width="50" />
 										<span class="ml-1"><strong>'.$user["name_member"].'</strong></span>
 										<span class="mt-2 float-right">'.$icon.'</span>
+                                        
 									</a>
 									';
 								}
@@ -128,7 +129,17 @@
 
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
-        
+
+        if($(".user-"+data.id).length > 0 && $("#login_user_id").val() == data.id_recieve){
+            if($(".user-"+data.id+" .count-msg").length > 0){
+                var i = parseInt($(".user-"+data.id+" .count-msg").html()) + 1;
+                $(".user-"+data.id+" .count-msg").remove();
+                $(".user-"+data.id).append("<span class='count-msg'>"+i+"</span>");
+            }else{
+                $(".user-"+data.id).append("<span class='count-msg'>1</span>");
+                $(".user-"+data.id).css("color", "green");
+            }
+        }
         if(data.action == "chat-room"){
             if(data.from == 'Me'){
                 row_class = 'media media-chat media-chat-reverse';
@@ -141,7 +152,6 @@
             $('#chat-content').append(html_data);
             $("#txt-chat").val("");
             $('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
-            console.log("chat room", data);
         }
     };
 

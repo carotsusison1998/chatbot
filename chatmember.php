@@ -37,29 +37,8 @@
                                 <div class="card-header">
                                     <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
                                 </div>
-                                <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
-                                    <?php 
-                                        if($get_data){ 
-                                        foreach($get_data as $item){
-                                            if($item['id_member'] == $_SESSION['member']['id_member']){
-                                    ?>
-                                            <div class="media media-chat media-chat-reverse">
-                                                <img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>
-                                                <div class='media-body'><p><?php echo $item['message']; ?></p></div>
-                                            </div>
-                                    <?php
-                                            }else{
-                                            ?>
-                                            <div class="media media-chat">
-                                                <img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>
-                                                <?php echo $item['name_member']?>
-                                                <div class='media-body'><p><?php echo $item['message']; ?></p></div>
-                                            </div>
-                                            <?php
-                                            }
-                                        }
-                                    }
-                                    ?>
+                                <div class="ps-container ps-theme-default ps-active-y" id="chat-content-member" style="overflow-y: scroll !important; height:400px !important;">
+                                    
                                 </div>
                                 <div class="publisher bt-1 border-light">
                                     <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
@@ -85,40 +64,7 @@
                         </form>
                     </div>
                 <?php } ?>
-                <div class="card mt-3">
-					<div class="card-header">User List</div>
-					<div class="card-body" id="user_list">
-						<div class="list-group list-group-flush">
-                            <a class="list-group-item list-group-item-action" href="./chatroom.php">Room</a>
-						<?php
-						if(count($get_list_member) > 0)
-						{
-							foreach($get_list_member as $key => $user)
-							{
-								$icon = '<i class="fa fa-circle text-danger"></i>';
-
-								if($user['login_status_member'] == 'Login')
-								{
-									$icon = '<i class="fa fa-circle text-success"></i>';
-								}
-
-								if($user['id_member'] != $_SESSION['member']['id_member'])
-								{
-									echo '
-									<a class="list-group-item list-group-item-action">
-										<img src="./libs/images/1613618355.png" class="img-fluid rounded-circle img-thumbnail" width="50" />
-										<span class="ml-1"><strong>'.$user["name_member"].'</strong></span>
-										<span class="mt-2 float-right">'.$icon.'</span>
-									</a>
-									';
-								}
-
-							}
-						}
-						?>
-						</div>
-					</div>
-				</div>
+                
             </div>
         </div>
     </div>
@@ -133,7 +79,35 @@
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
         if(data.action == "chat-member"){
-            console.log("chat member", data);
+            console.log("windo", data);
+            console.log("windo", <?php echo $_GET['member']; ?>);
+            if(data.id == $("#login_user_id").val() || data.id_recieve == $("#login_user_id").val()){
+                if(data.id == <?php echo $_GET['member']; ?>){
+                    if(data.from == 'Me'){
+                    row_class = 'media media-chat media-chat-reverse';
+                    img = "";
+                    }else if(data.from == 'you'){
+                        row_class = 'media media-chat';
+                        img = "<img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>"+data.name;
+                    }
+                    var html_data = "<div class='"+row_class+"'>"+img+"<div class='media-body'><p>"+data.msg+"</p></div></div>";
+                    $('#chat-content-member').append(html_data);
+                    $("#txt-chat-member").val("");
+                }
+                if(data.id_recieve == <?php echo $_GET['member']; ?>){
+                    if(data.from == 'Me'){
+                    row_class = 'media media-chat media-chat-reverse';
+                    img = "";
+                    }else if(data.from == 'you'){
+                        row_class = 'media media-chat';
+                        img = "<img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>"+data.name;
+                    }
+                    var html_data = "<div class='"+row_class+"'>"+img+"<div class='media-body'><p>"+data.msg+"</p></div></div>";
+                    $('#chat-content-member').append(html_data);
+                    $("#txt-chat-member").val("");
+                }
+
+            }
         }
     };
     $("#btn-send-member").click(function(){

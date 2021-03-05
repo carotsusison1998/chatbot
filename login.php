@@ -11,7 +11,7 @@
         $member = new member;
         $check_member = $member->login_member(
             $_POST['email_member'],
-            $_POST['password_member'],
+            $_POST['password_member']
         );
         if($check_member){
             $_SESSION['member'] = [
