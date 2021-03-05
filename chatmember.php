@@ -27,50 +27,59 @@
     }
 ?>
 <div class="container">
-    <h4 class="text-center pb-3">Chat Member</h4>
-    <div class="chat-room">
+    <h4 class="aligncenter pb-3">Phòng Chat Member</h4>
+    <div class="chat">
         <div class="row">
-            <div class="col-md-8">
-                <div class="page-content page-container" id="page-content">
-                    <div class="row container d-flex justify-content-center">
-                        <div class="col-md-12">
-                            <div class="card card-bordered">
-                                <div class="card-header">
-                                    <h4 class="card-title">
-                                        <?php if($getMemberById){ ?>
-                                        <strong><?php echo $getMemberById[0]['name_member'];?></strong>
-                                        <?php } ?>
-                                    </h4>
-                                    <!-- <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a> -->
-                                </div>
-                                <div class="ps-container ps-theme-default ps-active-y" id="chat-content-member" style="overflow-y: scroll !important; height:400px !important;">
-                                    
-                                </div>
-                                <div class="publisher bt-1 border-light">
-                                    <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                                    <input class="publisher-input" type="text" placeholder="Write something" id="txt-chat-member">
-                                    <a class="publisher-btn text-info" href="#" data-abc="true" id="btn-send-member"><i class="fa fa-paper-plane"></i></a> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="content-chat" id="content-chat-room">
+                <div class="list">
+                    
+                </div>
+                <div class="text-send">
+                    <textarea name="" class="input-text" id="input-text-member"></textarea>
+                    <input type="submit" class="btn btn-submit" id="btn-send-member" value="Gửi">
                 </div>
             </div>
-            <div class="col-sm-4">
-                <?php if($_SESSION['member']){ ?>
-                    <input type="hidden" name="login_user_id" id="login_user_id" value="<?php echo $_SESSION['member']['id_member']; ?>" />
-                    <input type="hidden" name="login_user_name" id="login_user_name" value="<?php echo $_SESSION['member']['name_member']; ?>" />
-                    <div class="mt-3 mb-3 text-center">
-                        <img src="./libs/images/1613618355.png" width="150" class="img-fluid rounded-circle img-thumbnail" />
-                        <h3 class="mt-2"><?php echo $_SESSION['member']['name_member']; ?></h3>
-                        <a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a>
-                        <form method="POST" action="chatroom.php">
-                            <input type="hidden" name="login_user_id" id="login_user_id" value="<?php echo $_SESSION['member']['id_member']; ?>" />
-                            <input type="submit" class="btn btn-primary mt-2 mb-2" name="logout" id="logout" value="Logout" />
-                        </form>
+            <div class="member-chat">
+                <div class="img">
+                    <img src="./libs/images/ic-women.png" alt="">
+                    <h4 class="aligncenter name"><?php echo $_SESSION['member']['name_member']; ?></h4>
+                </div>
+                <div class="action">
+                    <form method="POST" action="chatroom.php">
+                        <input type="hidden" name="login_user_id" id="login_user_id" value="<?php echo $_SESSION['member']['id_member']; ?>" />
+                        <input type="hidden" name="login_user_name" id="login_user_name" value="<?php echo $_SESSION['member']['name_member']; ?>" />
+                        <input type="submit" class="btn btn-primary mt-2 mb-2 logout" name="logout" id="logout" value="Logout" />
+                    </form>
+                </div>
+                <div class="list-member">
+                    <h4 class="aligncenter title-list">danh sách thành viên</h4>
+                    <div class="list-item">
+                        <?php
+                            if(count($get_list_member) > 0){
+                                foreach($get_list_member as $item){
+                                    if($item['login_status_member'] == "Login"){
+                                        $status = "<span class='status'></span>";
+                                    }else{
+                                        $status = "<span class='status red'></span>";
+                                    }
+                                    if($_SESSION['member']['id_member'] != $item['id_member']){
+                        ?>
+                                            <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
+                                                <div class="item">
+                                                    <img src="./libs/images/ic-women.png" alt="">
+                                                    <div class="item-name">
+                                                        <span class="name"><?php echo $item['name_member']; ?></span>
+                                                        <?php echo $status; ?>
+                                                    </div>
+                                                </div>
+                                            </a>
+                        <?php 
+                                    }
+                                }
+                            }
+                        ?>
                     </div>
-                <?php } ?>
-                
+                </div>
             </div>
         </div>
     </div>
@@ -85,48 +94,62 @@
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
         if(data.action == "chat-member"){
-            console.log("windo", data);
-            console.log("windo", <?php echo $_GET['member']; ?>);
             if(data.id == $("#login_user_id").val() || data.id_recieve == $("#login_user_id").val()){
+                var html = '';
                 if(data.id == <?php echo $_GET['member']; ?>){
+                    console.log('do');
                     if(data.from == 'Me'){
-                    row_class = 'media media-chat media-chat-reverse';
-                    img = "";
+                        html += "<div class='list-msg right'><div class='item-msg'><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
                     }else if(data.from == 'you'){
-                        row_class = 'media media-chat';
-                        img = "<img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>"+data.name;
+                        html += "<div class='list-msg left'><div class='item-msg'><div class='info'><div class='img'><img src='./libs/images/ic-men.png' alt=''></div><span class='text-name'>"+data.name+"</span></div><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
                     }
-                    var html_data = "<div class='"+row_class+"'>"+img+"<div class='media-body'><p>"+data.msg+"</p></div></div>";
-                    $('#chat-content-member').append(html_data);
-                    $("#txt-chat-member").val("");
+                    $('#content-chat-room .list').append(html);
+                    $('#content-chat-room .list').scrollTop($('#content-chat-room .list')[0].scrollHeight);
                 }
                 if(data.id_recieve == <?php echo $_GET['member']; ?>){
+                    console.log('do 2');
                     if(data.from == 'Me'){
-                    row_class = 'media media-chat media-chat-reverse';
-                    img = "";
+                        html += "<div class='list-msg right'><div class='item-msg'><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
                     }else if(data.from == 'you'){
-                        row_class = 'media media-chat';
-                        img = "<img class='avatar' src='https://img.icons8.com/color/36/000000/administrator-male.png' alt='...'>"+data.name;
+                        html += "<div class='list-msg left'><div class='item-msg'><div class='info'><div class='img'><img src='./libs/images/ic-men.png' alt=''></div><span class='text-name'>"+data.name+"</span></div><div class='text-msg'><p>"+data.msg+"</p></div></div></div>";
                     }
-                    var html_data = "<div class='"+row_class+"'>"+img+"<div class='media-body'><p>"+data.msg+"</p></div></div>";
-                    $('#chat-content-member').append(html_data);
-                    $("#txt-chat-member").val("");
+                    $('#content-chat-room .list').append(html);
+                    $('#content-chat-room .list').scrollTop($('#content-chat-room .list')[0].scrollHeight);
                 }
 
             }
         }
     };
     $("#btn-send-member").click(function(){
-        if($("#txt-chat-member").val()){
+        if($("#input-text-member").val()){
             var obj = {
                 id: $("#login_user_id").val(),
                 id_recieve: $("#recieve_user_id").val(),
                 name: $("#login_user_name").val(),
-                msg: $("#txt-chat-member").val(),
+                msg: $("#input-text-member").val(),
                 action: "chat-member"
             }
             conn.send(JSON.stringify(obj))
+            $("#input-text-member").val("");
         }
     })
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var obj = {
+                id: $("#login_user_id").val(),
+                id_recieve: $("#recieve_user_id").val(),
+                name: $("#login_user_name").val(),
+                msg: $("#input-text-member").val(),
+                action: "chat-member"
+            }
+            if($("#input-text-member").val()){
+                conn.send(JSON.stringify(obj))
+                setTimeout(() => {
+                    $("#input-text-member").val("");
+                }, 10);
+            }
+        }
+    });
 </script>
 <?php require_once './inc/footer.php'; ?>
