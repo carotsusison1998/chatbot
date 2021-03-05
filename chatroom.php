@@ -93,7 +93,7 @@
                                     if($_SESSION['member']['id_member'] != $item['id_member']){
                         ?>
                                             <a href="./chatmember.php?member=<?php echo $item['id_member'];?>">
-                                                <div class="item">
+                                                <div class="item member-<?php echo $item['id_member'];?>">
                                                     <img src="./libs/images/ic-women.png" alt="">
                                                     <div class="item-name">
                                                         <span class="name"><?php echo $item['name_member']; ?></span>
@@ -121,15 +121,16 @@
 
     conn.onmessage = function(e) {
         var data = JSON.parse(e.data);
+        console.log('ấdasdasda');
 
-        if($(".user-"+data.id).length > 0 && $("#login_user_id").val() == data.id_recieve){
-            if($(".user-"+data.id+" .count-msg").length > 0){
-                var i = parseInt($(".user-"+data.id+" .count-msg").html()) + 1;
-                $(".user-"+data.id+" .count-msg").remove();
-                $(".user-"+data.id).append("<span class='count-msg'>"+i+"</span>");
+        if($(".member-"+data.id).length > 0 && $("#login_user_id").val() == data.id_recieve){
+            if($(".member-"+data.id+" .count-msg").length > 0){
+                var i = parseInt($(".member-"+data.id+" .count-msg").html()) + 1;
+                $(".member-"+data.id+" .count-msg").remove();
+                $(".member-"+data.id).append("<span class='count-msg'>"+i+"</span>");
             }else{
-                $(".user-"+data.id).append("<span class='count-msg'>1</span>");
-                $(".user-"+data.id).css("color", "green");
+                $(".member-"+data.id).append("<span class='count-msg'>1</span>");
+                $(".member-"+data.id).css("color", "green");
             }
         }
         console.log('data', data);

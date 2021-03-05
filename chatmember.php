@@ -51,7 +51,7 @@
                         <input type="submit" class="btn btn-primary mt-2 mb-2 logout" name="logout" id="logout" value="Logout" />
                     </form>
                 </div>
-                <div class="list-member">
+                <!-- <div class="list-member">
                     <h4 class="aligncenter title-list">danh sách thành viên</h4>
                     <div class="list-item">
                         <?php
@@ -79,7 +79,7 @@
                             }
                         ?>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
