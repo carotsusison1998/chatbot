@@ -18,8 +18,9 @@
     }
     $get_data = $chat_room->getData();
     $get_list_member = $member->getListMember();
+    $getMemberById = $member->getMemberById($_GET['member']);
     // echo "<pre>";
-    // print_r($get_list_member);
+    // print_r($getMemberById);
     // echo "</pre>";
     if(isset($_GET['member'])){
         echo '<input type="hidden" id="recieve_user_id" value="'.$_GET['member'].'" />';
@@ -35,7 +36,12 @@
                         <div class="col-md-12">
                             <div class="card card-bordered">
                                 <div class="card-header">
-                                    <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
+                                    <h4 class="card-title">
+                                        <?php if($getMemberById){ ?>
+                                        <strong><?php echo $getMemberById[0]['name_member'];?></strong>
+                                        <?php } ?>
+                                    </h4>
+                                    <!-- <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a> -->
                                 </div>
                                 <div class="ps-container ps-theme-default ps-active-y" id="chat-content-member" style="overflow-y: scroll !important; height:400px !important;">
                                     
@@ -122,31 +128,5 @@
             conn.send(JSON.stringify(obj))
         }
     })
-
-    // $("#btn-send").click(function(){
-    //     if($("#txt-chat").val()){
-    //         var obj = {
-    //             id: $("#login_user_id").val(),
-    //             name: $("#login_user_name").val(),
-    //             msg: $("#txt-chat").val(),
-    //             action: "chat-room"
-    //         }
-    //         conn.send(JSON.stringify(obj))
-    //     }
-    // })
-    // $(document).keypress(function(event){
-    //     var keycode = (event.keyCode ? event.keyCode : event.which);
-    //     if (keycode == '13') {
-    //         var obj = {
-    //             id: $("#login_user_id").val(),
-    //             name: $("#login_user_name").val(),
-    //             msg: $("#txt-chat").val(),
-    //             action: "chat-room"
-    //         }
-    //         if($("#txt-chat").val()){
-    //             conn.send(JSON.stringify(obj))
-    //         }
-    //     }
-    // });
 </script>
 <?php require_once './inc/footer.php'; ?>

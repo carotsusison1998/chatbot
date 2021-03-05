@@ -321,6 +321,8 @@ textarea {
     color: #48b0f7 !important
 }
 /* ===================== End Form Chat==================== */
+
+/* ===================== Custom CSS ==================== */
 .list-group-item{
     position: relative;
     padding: 2px;
@@ -340,4 +342,8 @@ textarea {
     z-index: 10;
     background-color: black;
     color: white;
+}
+.justify-content-center{
+    border: 1px solid #ded8d8;
+    padding: 0;
 }

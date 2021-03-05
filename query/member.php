@@ -177,7 +177,7 @@ class member{
 			return false;
 		}
     }
-	function logoutMember($id){
+	public function logoutMember($id){
 		$status_member = "Logout";
         $query = "
 			UPDATE tbl_members 
@@ -198,6 +198,28 @@ class member{
 			return false;
 		}
     }
+	/**
+	 * Get member to chat by id in url
+	 * @param Int			id member chat
+	 * @return Object		thông tin member có id cùng với id truyền vào
+	 */
+	public function getMemberById($id){
+		$query = "
+            SELECT * 
+            FROM tbl_members
+			WHERE id_member = $id
+			LIMIT 1
+		";
+        $statement = $this->connect->prepare($query);
+        if($statement->execute())
+		{
+			return $statement->fetchAll();
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 ?>
