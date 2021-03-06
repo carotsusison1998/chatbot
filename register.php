@@ -32,7 +32,7 @@ require 'vendor/autoload.php';
                 $mail->SMTPSecure = "tls"; 
                 $mail->Port = "587";
                 $mail->Username = "tnly.16.06.1998@gmail.com";
-                $mail->Password = "Ngocduy1998";
+                $mail->Password = "Lynhi16062505";
                 // Recipients
                 $mail->CharSet = 'UTF-8';
                 $mail->isHTML(true); // Set email format to HTML

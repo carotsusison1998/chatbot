@@ -3,6 +3,7 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 require_once dirname(__DIR__) . '/query/room.php';
+require_once dirname(__DIR__) . '/query/chat_one_one.php';
 class Chat implements MessageComponentInterface {
     protected $clients;
 
@@ -24,6 +25,11 @@ class Chat implements MessageComponentInterface {
 
         $data = json_decode($msg, true);
         if($data['action'] == "chat-member"){
+            $chat_one = new \chat_one_one;
+            $chat_one->setChatOneOne($data['id'], $data['id_recieve'], $data['msg']);
+            $result = $chat_one->getChatOneOne();
+            $result = $chat_one->saveChatOneOne();
+            print_r($result);
             foreach ($this->clients as $client) {
                 if($from === $client)
                 {

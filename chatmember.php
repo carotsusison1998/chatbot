@@ -3,8 +3,10 @@
     session_start();
     require_once 'query/member.php';
     require_once 'query/room.php';
+    require_once 'query/chat_one_one.php';
     $chat_room = new \room;
     $member = new \member;
+    $chat_one = new \chat_one_one;
 
     if(!$_SESSION['member']){
         header('location:login.php');
@@ -19,8 +21,9 @@
     $get_data = $chat_room->getData();
     $get_list_member = $member->getListMember();
     $getMemberById = $member->getMemberById($_GET['member']);
+    $get_list_chat_one = $chat_one->getListChatOneOne($_SESSION['member']['id_member'], $_GET['member']);
     // echo "<pre>";
-    // print_r($getMemberById);
+    // print_r($get_list_chat_one);
     // echo "</pre>";
     if(isset($_GET['member'])){
         echo '<input type="hidden" id="recieve_user_id" value="'.$_GET['member'].'" />';
@@ -33,7 +36,37 @@
             <div class="content-chat" id="content-chat-member">
                 <div class="bg">
                     <div class="list">
-                    
+                        <?php if($get_list_chat_one){ 
+                            foreach($get_list_chat_one as $item){
+                                $name_member = $member->getMemberById($item['id_member_one']);
+                        ?>
+                        <?php if($item['id_member_one'] != $_SESSION['member']['id_member']){ ?>
+                                <div class="list-msg left">
+                                    <div class="item-msg">
+                                        <div class="info">
+                                            <div class="img">
+                                                <img src="./libs/images/ic-men.png" alt="">
+                                            </div>
+                                            <span class="text-name"><?php echo $name_member[0]['name_member']; ?></span>
+                                        </div>
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                        <?php }else{ ?>
+                                <div class="list-msg right">
+                                    <div class="item-msg">
+                                        <div class="text-msg">
+                                            <p><?php echo $item['message']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
                     </div>
                     <div class="text-send">
                         <textarea name="" class="input-text" id="input-text-member"></textarea>
