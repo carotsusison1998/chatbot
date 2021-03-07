@@ -4,6 +4,8 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 require_once dirname(__DIR__) . '/query/room.php';
 require_once dirname(__DIR__) . '/query/chat_one_one.php';
+require_once dirname(__DIR__) . '/query/group_chat.php';
+
 class Chat implements MessageComponentInterface {
     protected $clients;
 
@@ -27,9 +29,8 @@ class Chat implements MessageComponentInterface {
         if($data['action'] == "chat-member"){
             $chat_one = new \chat_one_one;
             $chat_one->setChatOneOne($data['id'], $data['id_recieve'], $data['msg']);
-            $result = $chat_one->getChatOneOne();
-            $result = $chat_one->saveChatOneOne();
-            print_r($result);
+            // $chat_one->saveChatOneOne();
+            // print_r($result);
             foreach ($this->clients as $client) {
                 if($from === $client)
                 {
@@ -45,6 +46,22 @@ class Chat implements MessageComponentInterface {
             $chat_room = new \room;
             $chat_room->setRoom($data['id'], $data['msg']);
             // $chat_room->saveRoom();
+            foreach ($this->clients as $client) {
+                if($from === $client)
+                {
+                    $data['from'] = 'Me';
+                }
+                else
+                {
+                    $data['from'] = "you";
+                }
+
+                $client->send(json_encode($data));
+            }
+        }else if($data['action'] == "chat-group"){
+            $group_chat = new \group_chat;
+            $group_chat->setMessageInGroup($data['id_group'], $data['id'], $data['msg']);
+            $group_chat->saveMessageInGroup();
             foreach ($this->clients as $client) {
                 if($from === $client)
                 {

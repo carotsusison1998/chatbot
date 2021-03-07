@@ -1,6 +1,5 @@
 <?php require_once './inc/header.php'; ?>
 <?php
-    session_start();
     require_once 'query/member.php';
     require_once 'query/room.php';
     require_once 'query/chat_one_one.php';

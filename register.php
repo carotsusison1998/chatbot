@@ -87,10 +87,10 @@ require 'vendor/autoload.php';
             <label for="pwd">Mật khẩu:</label>
             <input type="password" required class="form-control" minlength="6" maxlength="50" name="password_member" placeholder="Enter password" />
         </div>
-        <div class="form-group form-check">
+        <div class="submit">
+            <button type="submit" class="send btn btn-primary" name="register">Đăng Ký</button>
+            <a href="./" class="link btn btn-info">Trở Về</a>
         </div>
-        <button type="submit" class="send btn btn-primary" name="register">Đăng Ký</button>
-        <a href="./" class="link btn btn-info">Trở Về</a>
     </form>
 </div>
 <?php require_once './inc/footer.php'; ?>

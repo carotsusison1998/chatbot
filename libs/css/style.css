@@ -466,3 +466,76 @@ table
         font-size: 13px;
     }
 }
+/* ==============================================================
+* =========================== Home ==============================
+* ===============================================================
+*/
+.home{
+    padding: 100px 0;
+    text-align: center;
+}
+.home h3{
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+.home .link{
+    padding: 10px 30px;
+    background-color: green;
+    color: #ffffff;
+}
+/* ==============================================================
+* =========================== Register ==========================
+* ===============================================================
+*/
+.form-submit{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    max-width: 480px;
+    margin: auto;
+}
+.form-submit h4{
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+.form-submit .form-group{
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+.form-submit .form-group label{
+    width: 100px;
+}
+.form-submit .form-group input{
+    flex: 1;
+}
+.form-submit .submit{
+    display: flex;
+    justify-content: center;
+}
+.form-submit .submit button,
+.form-submit .submit .link{
+    padding: 10px 20px;
+    background-color: rgb(9, 85, 85);
+    outline: none;
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    margin: 30px 10px;
+    font-size: 1rem;
+}
+.alert{
+    padding: 10px 10px;
+    color: #ffffff;
+    margin: 10px 0;
+}
+.alert-success{
+    background-color: rgb(12, 114, 162);
+}
+.alert-warning{
+    background-color: rgb(225, 5, 5);
+}

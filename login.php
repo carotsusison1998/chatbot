@@ -1,7 +1,6 @@
 <?php require_once './inc/header.php'; ?>
 <?php
     require_once 'query/member.php';
-    session_start();
     $msg_error = '';
     $msg_success = '';
     if(isset($_SESSION['member'])){
@@ -58,10 +57,10 @@
             <label for="pwd">Mật khẩu:</label>
             <input type="password" required class="form-control" minlength="6" maxlength="50" name="password_member" placeholder="Enter password" />
         </div>
-        <div class="form-group form-check">
+        <div class="submit">
+            <button type="submit" class="send btn btn-primary" name="login">Đăng Nhập</button>
+            <a href="./" class="link btn btn-info">Trở Về</a>
         </div>
-        <button type="submit" class="send btn btn-primary" name="login">Đăng Nhập</button>
-        <a href="./" class="link btn btn-info">Trở Về</a>
     </form>
 </div>
 <?php require_once './inc/footer.php'; ?>
