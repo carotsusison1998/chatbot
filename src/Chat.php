@@ -29,7 +29,7 @@ class Chat implements MessageComponentInterface {
         if($data['action'] == "chat-member"){
             $chat_one = new \chat_one_one;
             $chat_one->setChatOneOne($data['id'], $data['id_recieve'], $data['msg']);
-            // $chat_one->saveChatOneOne();
+            $chat_one->saveChatOneOne();
             // print_r($result);
             foreach ($this->clients as $client) {
                 if($from === $client)
@@ -45,7 +45,7 @@ class Chat implements MessageComponentInterface {
         }else if($data['action'] == "chat-room"){
             $chat_room = new \room;
             $chat_room->setRoom($data['id'], $data['msg']);
-            // $chat_room->saveRoom();
+            $chat_room->saveRoom();
             foreach ($this->clients as $client) {
                 if($from === $client)
                 {
