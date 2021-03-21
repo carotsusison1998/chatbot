@@ -7,7 +7,8 @@
     $chat_room = new \room;
     $member = new \member;
     $group_chat = new \group_chat;
-
+    $msg_success = '';
+    $msg_error = '';
     if(!$_SESSION['member']){
         header('location:login.php');
     }
@@ -26,13 +27,41 @@
     $get_list_member = $member->getListMember();
     $getMessageInGroup = $group_chat->getMessageInGroup($_GET['id-group']);
     $getMemberInGroup = $group_chat->getMemberInGroup($_GET['id-group']);
+    $getListMemberInvite = $group_chat->getListMemberInvite($_GET['id-group']);
 
+    if(isset($_POST['addMember'])){
+        $addMemberInGroup = $group_chat->addMemberInGroup($_POST['id_member'], $_POST['name_member'], $_GET['id-group']);
+        if($addMemberInGroup){
+            $msg_success = "thêm thành viên thành công";
+            echo "<script>setTimeout(function(){window.location.href = 'http://localhost/chatbot/chatgroup.php?id-group=".$_GET['id-group']."'}, 3500);</script>";
+        }
+    }
     // echo "<pre>";
-    // print_r($getMemberInGroup);
+    // print_r($getListMemberInvite);
     // echo "</pre>";
 ?>
+
 <div class="container">
     <h4 class="aligncenter pb-3">Phòng Chat Group</h4>
+    <?php
+        if($msg_error != '')
+        {
+            echo '
+            <div class="alert alert-warning alert-dismissible">
+                '.$msg_error.'
+            </div>
+            ';
+        }
+
+        if($msg_success != '')
+        {
+            echo '
+            <div class="alert alert-success">
+            '.$msg_success.'
+            </div>
+            ';
+        }
+    ?>
     <div class="chat">
         <div class="row">
             <div class="content-chat" id="content-chat-room">
@@ -91,6 +120,9 @@
                         <input type="submit" class="btn btn-primary mt-2 mb-2 logout" name="logout" id="logout" value="Logout" />
                     </form>
                 </div>
+                <!-- Button trigger modal -->
+                <br>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Mời thành viên</button>
                 <div class="list-member">
                     <h4 class="aligncenter title-list">danh sách thành viên trong group</h4>
                     <div class="list-item">
@@ -125,6 +157,40 @@
         </div>
     </div>
 </div>
+<!-- modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <?php if($getListMemberInvite && count($getListMemberInvite) > 0){ 
+                foreach($getListMemberInvite as $item){    
+        ?>  
+                    <div class="item member-<?php echo $item['id_member'];?>">
+                        <form action="./chatgroup.php?id-group=<?php echo $_GET['id-group']; ?>" method="POST">
+                            <div class="item-name item-member">
+                                <span class="name"><?php echo $item['name_member']; ?></span>
+                                <input type="hidden" value="<?php echo $item['id_member'];?>" name="id_member">
+                                <input type="hidden" value="<?php echo $item['name_member'];?>" name="name_member">
+                                <input type="submit" value="mời" name="addMember">
+                            </div>
+                        </form>
+                    </div>
+        <?php
+                }
+            }
+             ?>
+      </div>
+      <div class="modal-footer">
+            
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal -->
 <script src="./libs/jquery/jquery.js"></script>
 <script>
     var conn = new WebSocket('ws://localhost:8080');

@@ -39,7 +39,21 @@ class group_chat{
         $statement->bindParam(':rule_group', $this->rule_group);
         if($statement->execute())
 		{
-			return true;
+            $message = "Nhóm vừa được tạo";
+            $query2 = "
+                INSERT INTO tbl_chat_group(id_group, id_member, message)
+                VALUES (:id_group, :id_member, :message)
+            ";
+            $idGroup = $this->connect->lastInsertId();
+            $statement2 = $this->connect->prepare($query2);
+            $statement2->bindParam(':id_group', $idGroup);
+            $statement2->bindParam(':id_member', $this->id_member_create);
+            $statement2->bindParam(':message', $message);
+            if($statement2->execute()){
+                return true;
+            }else{
+                return false;
+            }
 		}
 		else
 		{
@@ -48,7 +62,7 @@ class group_chat{
     }
     public function getGroupChatById($id){
         $query = "
-            SELECT DISTINCT id_member, id_group, name_group, rule_group
+            SELECT DISTINCT id_member, id_group, name_group, rule_group, id_member_create
             FROM tbl_chat_group, tbl_groups
             WHERE id_member = $id
             AND tbl_chat_group.id_group = tbl_groups.id
@@ -141,6 +155,74 @@ class group_chat{
 		{
 			return false;
 		}
+    }
+    public function getListMemberInvite($id_group){
+        $query = "
+                SELECT *
+                FROM tbl_members
+                WHERE id_member NOT IN  (
+                    SELECT DISTINCT id_member
+                    FROM tbl_chat_group 
+                    WHERE id_group = $id_group
+                )
+            ";
+        $statement = $this->connect->prepare($query);
+        if($statement->execute())
+		{
+			return $statement->fetchAll();
+            
+		}
+		else
+		{
+			return false;
+		}
+    }
+    public function addMemberInGroup($id_member, $name_member, $id_group){
+        $message = $name_member . " đã được thêm vào nhóm";
+        $query = "
+            INSERT INTO tbl_chat_group(id_group, id_member, message)
+            VALUES (:id_group, :id_member, :message)
+        ";
+        $statement = $this->connect->prepare($query);
+        $statement->bindParam(':id_group', $id_group);
+        $statement->bindParam(':id_member', $id_member);
+        $statement->bindParam(':message', $message);
+        if($statement->execute())
+		{
+			return true;
+            
+		}
+		else
+		{
+			return false;
+		}
+    }
+    public function deleteGroupChat($id_group){
+        try {
+            $this->connect->beginTransaction();
+
+            $statement = $this->connect->prepare('DELETE FROM tbl_chat_group WHERE id_group = :id_group');
+            $statement->bindParam(':id_group', $id_group);
+            $statement->execute();
+
+            $statement = $this->connect->prepare('DELETE FROM tbl_groups WHERE id = :id_group');
+            $statement->bindParam(':id_group', $id_group);
+            $statement->execute();
+
+            $this->connect->commit();
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        // if($statement->execute())
+		// {
+		// 	return true;
+            
+		// }
+		// else
+		// {
+		// 	return false;
+		// }
     }
 }
 

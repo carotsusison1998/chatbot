@@ -11,6 +11,9 @@
     if(!$_SESSION['member']){
         header('location:login.php');
     }
+    $token = md5(uniqid(rand(), TRUE));
+    $_SESSION['token'] = $token;
+    $_SESSION['token_time'] = time();
     if(isset($_POST['logout'])){
         $logout = $member->logoutMember($_POST['login_user_id']);
         if($logout){
@@ -19,11 +22,26 @@
         }
     }
     if(isset($_POST['group_chat'])){
+        if($_POST['name_group'] == ""){
+            $msg_error = " Vui lòng nhập tên nhóm ";
+        }else{
+            $group_chat->setGroupChat($_POST['login_user_id'], $_POST['name_group'], "open");
+            $saveGroupChat = $group_chat->saveGroupChat();
+            if($saveGroupChat){
+                $msg_success = "tạo group thành công";
+            }
+            echo '<script>
+                    setTimeout(function(){
+                        window.location.href = "chatroom.php"
+                    }, 3500);
+                </script>';
+        }
         
-        $group_chat->setGroupChat($_POST['login_user_id'], "Hello", "open");
-        $saveGroupChat = $group_chat->saveGroupChat();
-        if($saveGroupChat){
-            $msg_success = "tạo group thành công";
+    }
+    if(isset($_POST['delete-group'])){
+        $deleteGroupChat = $group_chat->deleteGroupChat($_POST['id_group']);
+        if($deleteGroupChat){
+            $msg_success = "xóa group thành công";
         }
     }
     
@@ -40,7 +58,7 @@
         if($msg_error != '')
         {
             echo '
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible">
                 '.$msg_error.'
             </div>
             ';
@@ -97,6 +115,9 @@
                     </div>
                     <div class="text-send">
                         <textarea name="" class="input-text" id="input-text-server"></textarea>
+                        <span class="mircophone">
+                            <i class="fas fa-microphone"></i>
+                        </span>
                         <input type="submit" class="btn btn-submit" id="btn-submit-server" value="Gửi">
                     </div>
                 </div>
@@ -112,11 +133,20 @@
                         <input type="hidden" name="login_user_name" id="login_user_name" value="<?php echo $_SESSION['member']['name_member']; ?>" />
                         <input type="submit" class="btn btn-primary mt-2 mb-2 logout" name="logout" id="logout" value="Logout" />
                     </form>
-                    <form method="POST" action="chatroom.php">
-                        <input type="hidden" name="login_user_id" id="login_user_id1" value="<?php echo $_SESSION['member']['id_member']; ?>" />
-                        <input type="hidden" name="login_user_name" id="login_user_name1" value="<?php echo $_SESSION['member']['name_member']; ?>" />
-                        <input type="submit" class="btn btn-primary mt-2 mb-2 group_chat" name="group_chat" id="group_chat" value="Tạo Group" />
-                    </form>
+                    <br>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Tạo Nhóm
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu create-group">
+                            <form method="POST" action="chatroom.php">
+                                <input type="hidden" name="token" value="<?php echo $token; ?>" />
+                                <input type="hidden" name="login_user_id" id="login_user_id1" value="<?php echo $_SESSION['member']['id_member']; ?>" />
+                                <input type="hidden" name="login_user_name" id="login_user_name1" value="<?php echo $_SESSION['member']['name_member']; ?>" />
+                                <input type="text" name="name_group" placeholder="tên nhóm">
+                                <input type="submit" class="btn btn-primary mt-2 mb-2 group_chat" name="group_chat" id="group_chat" value="Tạo" />
+                            </form>
+                        </ul>
+                    </div>
                 </div>
                 <div class="list-member">
                     <h4 class="aligncenter title-list">danh sách thành viên</h4>
@@ -155,15 +185,21 @@
                                 foreach($getGroupChatById as $item){
                                     
                         ?>
-                                <a href="./chatgroup.php?id-group=<?php echo $item['id_group']?>">
-                                    <div class="item">
-                                        <img src="./libs/images/ic-women.png" alt="">
-                                        <div class="item-name">
-                                            <span class="name"><?php echo $item['name_group']; ?></span>
-                                            <?php echo $item['rule_group']; ?>
+                                <form action="chatroom.php" method="POST">
+                                    <a href="./chatgroup.php?id-group=<?php echo $item['id_group']?>">
+                                        <div class="item">
+                                            <img src="./libs/images/ic-women.png" alt="">
+                                            <div class="item-name">
+                                                <span class="name"><?php echo $item['name_group']; ?></span>
+                                                <?php echo $item['rule_group']; ?>
+                                            </div>
+                                            <input type="hidden" name="id_group" value="<?php echo $item['id_group']?>">
+                                            <?php if($_SESSION['member']['id_member'] == $item['id_member_create']){ ?>
+                                            <button class="delete-group" name="delete-group">Xóa</button>
+                                            <?php } ?>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </form>
                         <?php 
                                 }
                             }
@@ -176,6 +212,48 @@
 </div>
 <script src="./libs/jquery/jquery.js"></script>
 <script>
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    const synth = window.speechSynthesis;
+    recognition.lang = 'vi-VI';
+    recognition.continuous = false;
+
+    const listenMessage =  function(){
+        recognition.onstart = function() {
+            console.log('Speech recognition service has started');
+        }
+        $(".mircophone").click(function(){
+            if($(".mircophone span").length <= 0){
+                $(".mircophone").append("<span></span>");
+                recognition.start();
+            }else{
+                $(".mircophone span").remove();
+                recognition.stop();
+                console.log("đã out");
+            }
+            
+        })
+        recognition.onresult = (e) => {
+            const text = e.results[0][0].transcript;
+            // $("#input-text-server").val(text);
+            var obj = {
+                id: $("#login_user_id").val(),
+                name: $("#login_user_name").val(),
+                msg: text,
+                action: "chat-room"
+            }
+            conn.send(JSON.stringify(obj))
+            $(".mircophone span").remove();
+        }
+        recognition.onspeechend = () => {
+            recognition.stop();
+        }
+        recognition.onerror = (err) => {
+            console.error(err);
+        }
+    }
+    listenMessage();
+
     var conn = new WebSocket('ws://localhost:8080');
     conn.onopen = function(e) {
         console.log("Connection established!");
